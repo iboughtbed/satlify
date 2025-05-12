@@ -31,7 +31,9 @@ const handler = (req: NextRequest) =>
         : undefined,
   });
 
-// extend function timeout to 60 seconds (Vercel)
+/**
+ * Allow sufficient time for your function to complete its normal operations
+ */
 export const maxDuration = 60;
 
 export { handler as GET, handler as POST };
