@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-// import createNextIntlPlugin from "next-intl/plugin";
+import createNextIntlPlugin from "next-intl/plugin";
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
@@ -38,7 +38,6 @@ const config: NextConfig = {
   devIndicators: false,
 };
 
-// const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
-// export default withNextIntl(config);
-export default config;
+export default withNextIntl(config);

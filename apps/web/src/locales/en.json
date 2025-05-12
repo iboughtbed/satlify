@@ -1,0 +1,105 @@
+{
+  "common": {
+    "announcement": {
+      "long": "Launching soon",
+      "short": "Launching soon"
+    },
+    "actions": {
+      "logout": "Logout",
+      "back": "Back",
+      "saveChanges": "Save Changes",
+      "saving": "Saving...",
+      "resetToDefaults": "Reset to Defaults",
+      "close": "Close",
+      "signingOut": "Signing out...",
+      "signedOutSuccess": "Signed out successfully!",
+      "signOutError": "Error signing out"
+    },
+    "themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "System"
+    },
+    "commandPalette": {
+      "title": "Command Palette",
+      "description": "Quick navigation and actions for Parallax",
+      "placeholder": "Type a command or search...",
+      "noResults": "No results found",
+      "groups": {
+        "studio": "Studio",
+        "settings": "Settings",
+        "actions": "Actions",
+        "help": "Help",
+        "navigation": "Navigation"
+      },
+      "commands": {
+        "goToStudio": "Go to Studio",
+        "goToSettings": "Go to Settings",
+        "newProject": "New Project",
+        "searchProjects": "Search Projects",
+        "helpWithShortcuts": "Help with shortcuts"
+      }
+    }
+  },
+  "navigation": {
+    "header": {
+      "studio": "Studio",
+      "contact": "Contact",
+      "about": "About",
+      "signIn": "Sign In"
+    },
+    "footer": {}
+  },
+  "pages": {
+    "error": {
+      "notFound": {
+        "title": "Page Not Found",
+        "description": "Oops! The page you're looking for doesn't exist or has been moved.",
+        "goBack": "Go Back"
+      },
+      "settingsNotFound": "404 - Settings page not found"
+    },
+    "home": {
+      "title": "Generate AI-powered Podcasts",
+      "description": "Your platform for producing studio-quality podcasts with AI",
+      "listenNow": "Listen now",
+      "createNow": "Create now",
+      "socialProof": "Powering 100+ episodes on different services",
+      "benefits": {
+        "title": {
+          "highlighted": "Podcasts",
+          "rest": "for everyone"
+        },
+        "description": "Create, listen and enjoy our podcast and witness the future of podcasts evolve",
+        "aiGenerated": {
+          "title": "AI-generated",
+          "description": "Seamlessly experience cutting-edge podcasting with our AI-generated episodes"
+        },
+        "dailyNews": {
+          "title": "Daily news",
+          "description": "Daily news about digital business, science and culture"
+        },
+        "shareLinks": {
+          "title": "Share links",
+          "description": "Create your own podcasts and share it with your friends"
+        },
+        "customPrompts": {
+          "title": "Custom prompts",
+          "description": "Generate your own podcasts about anything you want"
+        }
+      },
+      "testimonials": {
+        "title": "What people are saying",
+        "subtitle": "Trusted by podcasters, developers and directors",
+        "description": "Join the Parallax's fast growing community"
+      },
+      "cta": {
+        "title": "Start now, shape the future of podcasts",
+        "description": "Create podcasts in minutes. Free for your first 1 episode. No credit card required",
+        "primaryAction": "Listen now",
+        "secondaryAction": "Get demo"
+      }
+    },
+    "settings": {}
+  }
+}
