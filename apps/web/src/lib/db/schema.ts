@@ -1,7 +1,4 @@
-// Example model schema from the Drizzle docs
-// https://orm.drizzle.team/docs/sql-schema-declaration
-
-// import { sql } from "drizzle-orm";
+// import { relations, sql } from "drizzle-orm";
 import { index, pgTableCreator } from "drizzle-orm/pg-core";
 
 /**
@@ -11,6 +8,8 @@ import { index, pgTableCreator } from "drizzle-orm/pg-core";
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
 export const createTable = pgTableCreator((name) => `web_${name}`);
+
+// better-auth
 
 export const users = createTable(
   "user",
