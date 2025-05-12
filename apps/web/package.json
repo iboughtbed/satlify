@@ -18,7 +18,7 @@
     "translate:format": "prettier --write \"src/locales/**/*.json\""
   },
   "dependencies": {
-    "@radix-ui/react-tooltip": "^1.1.8",
+    "@radix-ui/react-tooltip": "^1.2.6",
     "@t3-oss/env-nextjs": "^0.12.0",
     "@tanstack/react-query": "5.74.4",
     "@trpc/client": "11.1.1",
@@ -30,6 +30,7 @@
     "clsx": "^2.1.1",
     "deepmerge": "^4.3.1",
     "drizzle-orm": "^0.41.0",
+    "geist": "^1.4.2",
     "lucide-react": "^0.484.0",
     "next": "^15.3.1",
     "next-intl": "^4.0.2",
@@ -38,6 +39,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "server-only": "^0.0.1",
+    "sonner": "^2.0.3",
     "superjson": "^2.2.2",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
