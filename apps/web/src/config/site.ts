@@ -7,12 +7,11 @@ export const siteConfig = {
   name: "Satlify",
   url: "https://satlify.vercel.app",
   ogImage: "https://satlify.vercel.app/og.png",
-  description: "Generate AI-powered Podcasts",
+  description: "Prepare for SAT with AI",
   links,
   mainNav: [
-    { key: "studio", href: "/" },
-    { key: "contact", href: "/" },
-    { key: "about", href: "/" },
+    { key: "practice", href: "/" },
+    { key: "resources", href: "/" },
   ],
   footerNav: [
     {
