@@ -10,6 +10,10 @@
     "dev:web": "cd apps/web && pnpm dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db:generate": "cd apps/web && pnpm drizzle-kit generate",
+    "db:migrate": "cd apps/web && pnpm drizzle-kit migrate",
+    "db:push": "cd apps/web && pnpm drizzle-kit push",
+    "db:studio": "cd apps/web && pnpm drizzle-kit studio",
     "ui:add": "cd apps/web && pnpm dlx shadcn@latest add"
   },
   "devDependencies": {

@@ -82,18 +82,18 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         )}
       >
         <TRPCReactProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="light"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <NextIntlClientProvider messages={messages}>
-                <div vaul-drawer-wrapper="">{children}</div>
-                <TailwindIndicator />
-                <Sonner richColors />
-              </NextIntlClientProvider>
-            </ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NextIntlClientProvider messages={messages}>
+              <div vaul-drawer-wrapper="">{children}</div>
+              <TailwindIndicator />
+              <Sonner richColors />
+            </NextIntlClientProvider>
+          </ThemeProvider>
         </TRPCReactProvider>
       </body>
     </html>

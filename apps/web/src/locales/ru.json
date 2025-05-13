@@ -43,10 +43,11 @@
   },
   "navigation": {
     "header": {
-      "studio": "Студия",
-      "contact": "Контакты",
-      "about": "О нас",
-      "signIn": "Вход"
+      "practice": "Практика",
+      "dashboard": "Панель управления",
+      "resources": "Ресурсы",
+      "profile": "Профиль",
+      "signOut": "Выход"
     },
     "footer": {}
   },

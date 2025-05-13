@@ -16,7 +16,8 @@ export async function getLocale() {
   }
 
   // extract browser locale from accept-language header
-  const acceptLanguage = headersList.get("accept-language");
+  // const acceptLanguage = headersList.get("accept-language");
+  const acceptLanguage = "en";
   if (acceptLanguage) {
     // try to get the locale with and without region (ex: "en" and "en-US")
     const reqLocale = acceptLanguage.split(",")[0]?.trim();

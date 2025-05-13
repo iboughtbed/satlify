@@ -7,7 +7,7 @@ import { username } from "better-auth/plugins";
 
 import { db } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
-// import { env } from "@/env";
+import { env } from "@/env";
 
 export const auth = betterAuth({
   emailAndPassword: {
@@ -30,10 +30,10 @@ export const auth = betterAuth({
     updateAge: 60 * 60 * 24, // 1 day (every 1 day the session expiration is updated)
   },
   socialProviders: {
-    // github: {
-    //   clientId: process.env.GITHUB_CLIENT_ID!,
-    //   clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-    // },
+    github: {
+      clientId: env.GITHUB_CLIENT_ID,
+      clientSecret: env.GITHUB_CLIENT_SECRET,
+    },
   },
   trustedOrigins: process.env.BETTER_AUTH_TRUSTED_ORIGIN?.split(",") ?? [],
 });

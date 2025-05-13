@@ -43,10 +43,11 @@
   },
   "navigation": {
     "header": {
-      "studio": "Studio",
-      "contact": "Contact",
-      "about": "About",
-      "signIn": "Sign In"
+      "practice": "Practice",
+      "dashboard": "Dashboard",
+      "resources": "Resources",
+      "profile": "Profile",
+      "signOut": "Sign Out"
     },
     "footer": {}
   },
