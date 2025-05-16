@@ -41,14 +41,15 @@ export function SignIn({ callbackUrl }: SignInProps) {
       {
         email,
         password,
-        callbackURL: callbackUrl ?? "/"
+        callbackURL: callbackUrl ?? "/",
       },
       {
         onSuccess: () => {
           toast.success("Successfully signed in. Redirecting...");
+          router.push("/signin");
         },
-        onError: () => {
-          toast.error("Something went wrong. Please try again.");
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
         },
       },
     );
@@ -82,12 +83,14 @@ export function SignIn({ callbackUrl }: SignInProps) {
                     control={form.control}
                     name="email"
                     render={({ field }) => (
-                      <Input
-                        placeholder="Enter email or username"
-                        type="text"
-                        disabled={loading}
-                        {...field}
-                      />
+                      <FormControl>
+                        <Input
+                          placeholder="Enter email or username"
+                          type="text"
+                          disabled={loading}
+                          {...field}
+                        />
+                      </FormControl>
                     )}
                   />
 
@@ -95,18 +98,26 @@ export function SignIn({ callbackUrl }: SignInProps) {
                     <label className="flex items-center text-[0.8125rem] font-medium leading-snug tracking-normal">
                       Password
                     </label>
+                    <Link
+                      href="/forgot-password"
+                      className="text-[0.8125rem] font-medium leading-snug tracking-normal underline"
+                    >
+                      Forgot password?
+                    </Link>
                   </div>
 
                   <FormField
                     control={form.control}
                     name="password"
                     render={({ field }) => (
-                      <Input
-                        placeholder="Enter password"
-                        type="password"
-                        disabled={loading}
-                        {...field}
-                      />
+                      <FormControl>
+                        <Input
+                          placeholder="Enter password"
+                          type="password"
+                          disabled={loading}
+                          {...field}
+                        />
+                      </FormControl>
                     )}
                   />
                 </div>
@@ -114,6 +125,7 @@ export function SignIn({ callbackUrl }: SignInProps) {
             </div>
           </div>
           <Button type="submit" disabled={loading}>
+            {loading && <Icons.loading className="mr-2 h-4 w-4 animate-spin" />}
             <span className="flex flex-row flex-nowrap items-center justify-start">
               Continue
             </span>

@@ -1,74 +1,82 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { Form, FormControl, FormField } from "@/components/ui/form";
 import { AuthCard } from "@/components/auth/auth-card";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 
 const formSchema = z
   .object({
-    email: z.string().email(),
-    password: z.string().min(8),
-    confirmPassword: z.string().min(8),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters." }),
+    confirmPassword: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters." }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
+    message: "Passwords don't match.",
     path: ["confirmPassword"],
   });
 
-interface SignUpProps {
-  callbackUrl?: string;
-}
-
-export function SignUp({ callbackUrl }: SignUpProps) {
+export function ResetPassword() {
   const router = useRouter();
-  const [loading, setLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isSuccess, setIsSuccess] = React.useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
       password: "",
       confirmPassword: "",
     },
   });
 
-  async function onSubmit({ email, password }: z.infer<typeof formSchema>) {
-    await authClient.signUp.email(
-      {
-        email,
-        password,
-        name: email,
-        callbackURL: callbackUrl ?? "/",
-      },
-      {
-        onSuccess: () => {
-          toast.success("Successfully signed up. Redirecting...");
-        },
-        onError: (ctx) => {
-          toast.error(ctx.error.message);
-        },
-      },
-    );
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+
+    try {
+      const response = await authClient.resetPassword({
+        newPassword: data.password,
+        token: new URLSearchParams(window.location.search).get("token")!,
+      });
+
+      if (response.error) {
+        return toast.error(response.error.message);
+      }
+
+      setIsSuccess(true);
+      router.push("/signin");
+    } catch {
+      toast.error("Failed to reset password. Please try again.");
+    }
+
+    setIsLoading(false);
   }
+
   return (
     <AuthCard
-      loading={loading}
-      setLoading={setLoading}
-      title="Create an account"
-      description="Welcome! Please fill in the details to get started."
-      callbackUrl={callbackUrl}
-      type="signup"
+      loading={isLoading}
+      setLoading={setIsLoading}
+      title="Reset Your Password"
+      description="Enter your email and new password below."
+      type="reset"
     >
       <Form {...form}>
         <form
@@ -79,27 +87,6 @@ export function SignUp({ callbackUrl }: SignUpProps) {
             <div className="flex flex-row flex-nowrap items-stretch justify-between gap-4">
               <div className="relative flex flex-[1_1_auto] flex-col items-stretch justify-start">
                 <div className="flex flex-col flex-nowrap items-stretch justify-start gap-2">
-                  <div className="flex flex-row flex-nowrap items-center justify-between">
-                    <label className="flex items-center text-[0.8125rem] font-medium leading-snug tracking-normal">
-                      Email address or username
-                    </label>
-                  </div>
-
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormControl>
-                        <Input
-                          placeholder="Enter email or username"
-                          type="text"
-                          disabled={loading}
-                          {...field}
-                        />
-                      </FormControl>
-                    )}
-                  />
-
                   <div className="flex flex-row flex-nowrap items-center justify-between">
                     <label className="flex items-center text-[0.8125rem] font-medium leading-snug tracking-normal">
                       Password
@@ -114,7 +101,7 @@ export function SignUp({ callbackUrl }: SignUpProps) {
                         <Input
                           placeholder="Enter password"
                           type="password"
-                          disabled={loading}
+                          disabled={isLoading}
                           {...field}
                         />
                       </FormControl>
@@ -135,7 +122,7 @@ export function SignUp({ callbackUrl }: SignUpProps) {
                         <Input
                           placeholder="Confirm password"
                           type="password"
-                          disabled={loading}
+                          disabled={isLoading}
                           {...field}
                         />
                       </FormControl>
@@ -145,10 +132,12 @@ export function SignUp({ callbackUrl }: SignUpProps) {
               </div>
             </div>
           </div>
-          <Button type="submit" disabled={loading}>
-            {loading && <Icons.loading className="mr-2 h-4 w-4 animate-spin" />}
+          <Button type="submit" disabled={isLoading}>
+            {isLoading && (
+              <Icons.loading className="mr-2 h-4 w-4 animate-spin" />
+            )}
             <span className="flex flex-row flex-nowrap items-center justify-start">
-              Continue
+              Reset Password
             </span>
           </Button>
         </form>

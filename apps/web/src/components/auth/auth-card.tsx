@@ -5,7 +5,7 @@ import { OAuthSignIn } from "@/components/auth/oauth-signin";
 interface AuthCardProps {
   title: string;
   description: string;
-  type: "signin" | "signup";
+  type: "signin" | "signup" | "forgot" | "reset";
   children: React.ReactNode;
   loading: boolean;
   setLoading: (loading: boolean) => void;
@@ -36,19 +36,23 @@ export function AuthCard({
             </div>
           </div>
           <div className="flex flex-col flex-nowrap items-stretch justify-start gap-6">
-            <OAuthSignIn
-              loading={loading}
-              setLoading={setLoading}
-              callbackUrl={callbackUrl}
-            />
+            {(type === "signin" || type === "signup") && (
+              <>
+                <OAuthSignIn
+                  loading={loading}
+                  setLoading={setLoading}
+                  callbackUrl={callbackUrl}
+                />
 
-            <div className="flex flex-row flex-nowrap items-center justify-center">
-              <div className="flex h-px flex-1 flex-row items-stretch justify-start"></div>
-              <p className="mx-4 my-0 text-[0.8125rem] font-normal leading-snug tracking-normal">
-                or
-              </p>
-              <div className="flex h-px flex-1 flex-row items-stretch justify-start"></div>
-            </div>
+                <div className="flex flex-row flex-nowrap items-center justify-center">
+                  <div className="flex h-px flex-1 flex-row items-stretch justify-start"></div>
+                  <p className="mx-4 my-0 text-[0.8125rem] font-normal leading-snug tracking-normal">
+                    or
+                  </p>
+                  <div className="flex h-px flex-1 flex-row items-stretch justify-start"></div>
+                </div>
+              </>
+            )}
 
             {children}
           </div>

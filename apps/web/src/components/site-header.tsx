@@ -22,7 +22,7 @@ export function SiteHeader({ user }: SiteHeaderProps) {
     <header className="sticky top-0 z-50 w-full border-b bg-background">
       <div className="container relative flex h-16 items-center justify-between">
         <div className="hidden items-center gap-2 text-sm md:flex">
-          <Link href="/" className={cn(buttonVariants())}>
+          <Link href="/" className={cn(buttonVariants({ variant: "outline" }))}>
             Satlify
           </Link>
 
@@ -38,15 +38,25 @@ export function SiteHeader({ user }: SiteHeaderProps) {
         </div>
 
         <div className="flex items-center gap-2 text-sm">
-          <Link
-            href="/signin"
-            className={cn(buttonVariants({ variant: "ghost" }))}
-          >
-            Sign in
-          </Link>
-          <Link href="/signup" className={cn(buttonVariants())}>
-            Sign up
-          </Link>
+          {user ? (
+            <>
+              <Link href="/dashboard" className={cn(buttonVariants())}>
+                Dashboard
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/signin"
+                className={cn(buttonVariants({ variant: "ghost" }))}
+              >
+                Sign in
+              </Link>
+              <Link href="/signup" className={cn(buttonVariants())}>
+                Sign up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>
