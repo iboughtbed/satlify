@@ -1,8 +1,10 @@
-import { Home, CircleUser, Settings } from "lucide-react";
+import { CircleUser, Home, Settings } from "lucide-react";
 
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -10,6 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Session } from "@/lib/auth-types";
 
 const items = [
   {
@@ -29,9 +32,13 @@ const items = [
   },
 ];
 
-export function AppSidebar() {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  user?: Session["user"];
+}
+
+export function AppSidebar({ user, ...props }: AppSidebarProps) {
   return (
-    <Sidebar>
+    <Sidebar {...props}>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
@@ -51,6 +58,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={user} />
+      </SidebarFooter>
     </Sidebar>
   );
 }
