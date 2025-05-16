@@ -9,7 +9,8 @@
         "BETTER_AUTH_SECRET",
         "GITHUB_CLIENT_ID",
         "GITHUB_CLIENT_SECRET",
-        "RESEND_API_KEY"
+        "RESEND_API_KEY",
+        "BETTER_AUTH_TRUSTED_ORIGIN"
       ],
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**"]
