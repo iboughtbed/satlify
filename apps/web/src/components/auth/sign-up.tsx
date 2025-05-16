@@ -44,6 +44,8 @@ export function SignUp({ callbackUrl }: SignUpProps) {
   });
 
   async function onSubmit({ email, password }: z.infer<typeof formSchema>) {
+    setLoading(true);
+
     await authClient.signUp.email(
       {
         email,
@@ -54,9 +56,11 @@ export function SignUp({ callbackUrl }: SignUpProps) {
       {
         onSuccess: () => {
           toast.success("Successfully signed up. Redirecting...");
+          router.push("/signin");
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
+          setLoading(false);
         },
       },
     );

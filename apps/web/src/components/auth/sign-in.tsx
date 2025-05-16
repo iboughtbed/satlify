@@ -37,6 +37,8 @@ export function SignIn({ callbackUrl }: SignInProps) {
   });
 
   async function onSubmit({ email, password }: z.infer<typeof formSchema>) {
+    setLoading(true);
+
     await authClient.signIn.email(
       {
         email,
@@ -50,6 +52,7 @@ export function SignIn({ callbackUrl }: SignInProps) {
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
+          setLoading(false);
         },
       },
     );
