@@ -8,6 +8,13 @@
       "when": 1747065543679,
       "tag": "0000_big_carlie_cooper",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1747580655450,
+      "tag": "0001_stiff_iron_fist",
+      "breakpoints": true
     }
   ]
 }

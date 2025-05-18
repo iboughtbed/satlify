@@ -1,5 +1,13 @@
-// import { relations, sql } from "drizzle-orm";
-import { index, pgTableCreator } from "drizzle-orm/pg-core";
+import { relations, sql } from "drizzle-orm";
+import { index, pgEnum, pgTableCreator } from "drizzle-orm/pg-core";
+
+import {
+  practiceTestTypes,
+  questionTypes,
+  sectionTypes,
+  testAttemptStatuses,
+} from "@/lib/constants";
+import type { ModuleAttempt } from "@/types";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -8,6 +16,144 @@ import { index, pgTableCreator } from "drizzle-orm/pg-core";
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
 export const createTable = pgTableCreator((name) => `web_${name}`);
+
+export const practiceTestTypeEnum = pgEnum(
+  "practice_test_type_enum",
+  practiceTestTypes,
+);
+export const sectionTypeEnum = pgEnum("section_type_enum", sectionTypes);
+export const questionTypeEnum = pgEnum("question_type_enum", questionTypes);
+export const testAttemptStatusEnum = pgEnum(
+  "test_attempt_status_enum",
+  testAttemptStatuses,
+);
+
+export const practiceTests = createTable(
+  "practice_test",
+  (d) => ({
+    id: d.uuid().defaultRandom().primaryKey(),
+    title: d.text().notNull(),
+    type: practiceTestTypeEnum().notNull(),
+    userId: d.text().references(() => users.id, { onDelete: "cascade" }),
+    isPublic: d.boolean().notNull().default(false),
+    createdAt: d
+      .timestamp({ withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+  }),
+  (t) => [index("practice_test_type_idx").on(t.type)],
+);
+
+export const practiceTestsRelations = relations(
+  practiceTests,
+  ({ one, many }) => ({
+    sections: many(sections),
+    user: one(users, {
+      fields: [practiceTests.userId],
+      references: [users.id],
+    }),
+  }),
+);
+
+export const sections = createTable(
+  "section",
+  (d) => ({
+    id: d.uuid().defaultRandom().primaryKey(),
+    practiceTestId: d
+      .uuid()
+      .references(() => practiceTests.id, { onDelete: "cascade" }),
+    type: sectionTypeEnum().notNull(),
+    duration: d.integer().notNull(),
+    createdAt: d
+      .timestamp({ withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+  }),
+  (t) => [index("section_practice_test_id_idx").on(t.practiceTestId)],
+);
+
+export const sectionsRelations = relations(sections, ({ one, many }) => ({
+  practiceTest: one(practiceTests, {
+    fields: [sections.practiceTestId],
+    references: [practiceTests.id],
+  }),
+  modules: many(modules),
+}));
+
+export const modules = createTable(
+  "module",
+  (d) => ({
+    id: d.uuid().defaultRandom().primaryKey(),
+    sectionId: d.uuid().references(() => sections.id, { onDelete: "cascade" }),
+    title: d.text().notNull(),
+    duration: d.integer().notNull(),
+    createdAt: d
+      .timestamp({ withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+  }),
+  (t) => [index("module_section_id_idx").on(t.sectionId)],
+);
+
+export const modulesRelations = relations(modules, ({ one, many }) => ({
+  section: one(sections, {
+    fields: [modules.sectionId],
+    references: [sections.id],
+  }),
+  questions: many(questions),
+}));
+
+export const questions = createTable("question", (d) => ({
+  id: d.uuid().defaultRandom().primaryKey(),
+  moduleId: d.uuid().references(() => modules.id, { onDelete: "cascade" }),
+  questionText: d.text("question_text").notNull(),
+  passageText: d.text("passage_text"),
+  options: d.jsonb(),
+  correctAnswer: d.text().notNull(),
+  explanation: d.text(),
+  domain: d.text(),
+  createdAt: d
+    .timestamp({ withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+}));
+
+export const questionsRelations = relations(questions, ({ one }) => ({
+  module: one(modules, {
+    fields: [questions.moduleId],
+    references: [modules.id],
+  }),
+}));
+
+export const testAttempts = createTable("test_attempt", (d) => ({
+  id: d.uuid().defaultRandom().primaryKey(),
+  userId: d.text().references(() => users.id, { onDelete: "cascade" }),
+  practiceTestId: d
+    .uuid()
+    .references(() => practiceTests.id, { onDelete: "cascade" }),
+  status: testAttemptStatusEnum().notNull().default("pending"),
+  results: d.jsonb().$type<ModuleAttempt[]>(),
+  createdAt: d
+    .timestamp({ withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+}));
+
+export const testAttemptsRelations = relations(
+  testAttempts,
+  ({ one, many }) => ({
+    practiceTest: one(practiceTests, {
+      fields: [testAttempts.practiceTestId],
+      references: [practiceTests.id],
+    }),
+    results: many(modules),
+  }),
+);
 
 // better-auth
 
@@ -27,9 +173,9 @@ export const users = createTable(
   (t) => [index("user_email_idx").on(t.email)],
 );
 
-// export const usersRelations = relations(users, ({ many }) => ({
-//   projects: many(projects),
-// }));
+export const usersRelations = relations(users, ({ many }) => ({
+  testAttempts: many(testAttempts),
+}));
 
 export const sessions = createTable(
   "session",
