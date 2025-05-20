@@ -115,9 +115,11 @@ body {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   :root {
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -149,8 +151,16 @@ html {
   color: rgb(255, 255, 255);
 }
 
+.container-wrapper {
+  @apply mx-auto w-full max-w-[1400px] border-dashed border-border/70 dark:border-border min-[1400px]:border-x min-[1800px]:max-w-screen-2xl;
+}
+
 @media (max-width: 640px) {
   .container {
     @apply px-4;
   }
+}
+
+.border-grid {
+  @apply border-dashed border-border/50 dark:border-border;
 }

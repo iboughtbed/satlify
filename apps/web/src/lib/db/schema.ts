@@ -34,7 +34,10 @@ export const practiceTests = createTable(
     id: d.uuid().defaultRandom().primaryKey(),
     title: d.text().notNull(),
     type: practiceTestTypeEnum().notNull(),
-    userId: d.text().references(() => users.id, { onDelete: "cascade" }),
+    userId: d
+      .text()
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
     isPublic: d.boolean().notNull().default(false),
     createdAt: d
       .timestamp({ withTimezone: true })
@@ -62,7 +65,8 @@ export const sections = createTable(
     id: d.uuid().defaultRandom().primaryKey(),
     practiceTestId: d
       .uuid()
-      .references(() => practiceTests.id, { onDelete: "cascade" }),
+      .references(() => practiceTests.id, { onDelete: "cascade" })
+      .notNull(),
     type: sectionTypeEnum().notNull(),
     duration: d.integer().notNull(),
     createdAt: d
@@ -86,7 +90,10 @@ export const modules = createTable(
   "module",
   (d) => ({
     id: d.uuid().defaultRandom().primaryKey(),
-    sectionId: d.uuid().references(() => sections.id, { onDelete: "cascade" }),
+    sectionId: d
+      .uuid()
+      .references(() => sections.id, { onDelete: "cascade" })
+      .notNull(),
     title: d.text().notNull(),
     duration: d.integer().notNull(),
     createdAt: d
@@ -108,13 +115,17 @@ export const modulesRelations = relations(modules, ({ one, many }) => ({
 
 export const questions = createTable("question", (d) => ({
   id: d.uuid().defaultRandom().primaryKey(),
-  moduleId: d.uuid().references(() => modules.id, { onDelete: "cascade" }),
+  moduleId: d
+    .uuid()
+    .references(() => modules.id, { onDelete: "cascade" })
+    .notNull(),
   questionText: d.text("question_text").notNull(),
   passageText: d.text("passage_text"),
-  options: d.jsonb(),
+  options: d.jsonb().$type<string[]>(),
   correctAnswer: d.text().notNull(),
   explanation: d.text(),
   domain: d.text(),
+  type: questionTypeEnum().notNull(),
   createdAt: d
     .timestamp({ withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
@@ -131,10 +142,14 @@ export const questionsRelations = relations(questions, ({ one }) => ({
 
 export const testAttempts = createTable("test_attempt", (d) => ({
   id: d.uuid().defaultRandom().primaryKey(),
-  userId: d.text().references(() => users.id, { onDelete: "cascade" }),
+  userId: d
+    .text()
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
   practiceTestId: d
     .uuid()
-    .references(() => practiceTests.id, { onDelete: "cascade" }),
+    .references(() => practiceTests.id, { onDelete: "cascade" })
+    .notNull(),
   status: testAttemptStatusEnum().notNull().default("pending"),
   results: d.jsonb().$type<ModuleAttempt[]>(),
   createdAt: d

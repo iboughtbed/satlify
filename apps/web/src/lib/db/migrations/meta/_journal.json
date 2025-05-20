@@ -15,6 +15,13 @@
       "when": 1747580655450,
       "tag": "0001_stiff_iron_fist",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1747721802946,
+      "tag": "0002_typical_gressill",
+      "breakpoints": true
     }
   ]
 }
