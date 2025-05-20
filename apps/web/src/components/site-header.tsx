@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import type { Session } from "@/lib/auth-types";
 
 interface SiteHeaderProps {
@@ -19,44 +19,43 @@ export function SiteHeader({ user }: SiteHeaderProps) {
   }));
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background">
-      <div className="container relative flex h-16 items-center justify-between">
-        <div className="hidden items-center gap-2 text-sm md:flex">
-          <Link href="/" className={cn(buttonVariants({ variant: "outline" }))}>
+    <header className="border-grid sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container-wrapper">
+        <div className="container flex h-14 items-center justify-between gap-2 md:gap-4">
+          <Link href="/" className="font-semibold">
             Satlify
           </Link>
 
-          {items.map((item, index) => (
-            <Link
-              key={index}
-              href={item.href}
-              className={cn(buttonVariants({ variant: "outline" }))}
-            >
-              {item.title}
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-2 text-sm">
-          {user ? (
-            <>
-              <Link href="/dashboard" className={cn(buttonVariants())}>
-                Dashboard
-              </Link>
-            </>
-          ) : (
-            <>
+          <div className="flex items-center gap-4">
+            {items.map((item, idx) => (
               <Link
-                href="/signin"
-                className={cn(buttonVariants({ variant: "ghost" }))}
+                key={idx}
+                href={item.href}
+                className="hover:text-foreground/80"
               >
-                Sign in
+                {item.title}
               </Link>
-              <Link href="/signup" className={cn(buttonVariants())}>
-                Sign up
-              </Link>
-            </>
-          )}
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            {user ? (
+              <>
+                <Button asChild>
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button asChild variant="ghost">
+                  <Link href="/signin">Login</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/signup">Sign up</Link>
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </header>

@@ -89,7 +89,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             disableTransitionOnChange
           >
             <NextIntlClientProvider messages={messages}>
-              <div vaul-drawer-wrapper="">{children}</div>
+              <div vaul-drawer-wrapper="">
+                <div className="relative flex min-h-svh flex-col bg-background">
+                  {children}
+                </div>
+              </div>
               <TailwindIndicator />
               <Sonner richColors />
             </NextIntlClientProvider>

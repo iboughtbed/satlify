@@ -12,7 +12,7 @@ export default async function Layout({
   const session = await getSession({ headers: await headers() });
 
   return (
-    <div className="relative flex min-h-screen flex-col">
+    <div className="border-grid flex flex-1 flex-col">
       <SiteHeader user={session?.user} />
       <main className="flex-1">{children}</main>
       {/* <SiteFooter /> */}
