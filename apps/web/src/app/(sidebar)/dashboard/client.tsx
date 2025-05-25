@@ -117,7 +117,7 @@ export function Dashboard({ session }: { session: Session }) {
             <Card key={test.id} className="overflow-hidden bg-card">
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
-                  <CardTitle>{test.title}</CardTitle>
+                  <CardTitle>{test.type}</CardTitle>
                   <Badge
                     variant={
                       test.type === "full"
