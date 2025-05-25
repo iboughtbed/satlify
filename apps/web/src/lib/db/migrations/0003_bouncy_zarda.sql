@@ -1,0 +1,1 @@
+ALTER TABLE "web_practice_test" DROP COLUMN "title";

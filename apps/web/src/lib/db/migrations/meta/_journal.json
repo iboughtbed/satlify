@@ -22,6 +22,20 @@
       "when": 1747721802946,
       "tag": "0002_typical_gressill",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1747897116577,
+      "tag": "0003_bouncy_zarda",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1747897138033,
+      "tag": "0004_loving_darkhawk",
+      "breakpoints": true
     }
   ]
 }
