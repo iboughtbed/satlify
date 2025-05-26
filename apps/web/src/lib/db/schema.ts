@@ -159,16 +159,16 @@ export const testAttempts = createTable("test_attempt", (d) => ({
   updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
 }));
 
-export const testAttemptsRelations = relations(
-  testAttempts,
-  ({ one, many }) => ({
-    practiceTest: one(practiceTests, {
-      fields: [testAttempts.practiceTestId],
-      references: [practiceTests.id],
-    }),
-    results: many(modules),
+export const testAttemptsRelations = relations(testAttempts, ({ one }) => ({
+  practiceTest: one(practiceTests, {
+    fields: [testAttempts.practiceTestId],
+    references: [practiceTests.id],
   }),
-);
+  user: one(users, {
+    fields: [testAttempts.userId],
+    references: [users.id],
+  }),
+}));
 
 // better-auth
 
