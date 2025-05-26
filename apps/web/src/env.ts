@@ -16,8 +16,14 @@ export const env = createEnv({
     GITHUB_CLIENT_SECRET: z.string(),
 
     RESEND_API_KEY: z.string(),
-  },
 
+    UPSTASH_REDIS_REST_URL: z.string().url(),
+    UPSTASH_REDIS_REST_TOKEN: z.string(),
+    QSTASH_URL: z.string().url(),
+    QSTASH_TOKEN: z.string(),
+    QSTASH_CURRENT_SIGNING_KEY: z.string(),
+    QSTASH_NEXT_SIGNING_KEY: z.string(),
+  },
   /**
    * Specify your client-side environment variables schema here. This way you can ensure the app
    * isn't built with invalid env vars. To expose them to the client, prefix them with
@@ -42,6 +48,13 @@ export const env = createEnv({
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
 
     RESEND_API_KEY: process.env.RESEND_API_KEY,
+
+    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
+    QSTASH_URL: process.env.QSTASH_URL,
+    QSTASH_TOKEN: process.env.QSTASH_TOKEN,
+    QSTASH_CURRENT_SIGNING_KEY: process.env.QSTASH_CURRENT_SIGNING_KEY,
+    QSTASH_NEXT_SIGNING_KEY: process.env.QSTASH_NEXT_SIGNING_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

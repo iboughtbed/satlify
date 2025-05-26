@@ -27,5 +27,4 @@ export const testAttemptsRouter = createTRPCRouter({
       where: (table, { eq }) => eq(table.userId, ctx.session.user.id),
     });
   }),
-  
 });

@@ -38,7 +38,7 @@ export default async function Page({ params }: { params: Params }) {
     <div className="mx-auto flex w-full max-w-3xl flex-col space-y-8 px-4 py-8 md:px-10 md:py-16">
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold tracking-tight">
-          {practiceTest.title}
+          {practiceTest.type}
         </h2>
         <Badge
           variant={

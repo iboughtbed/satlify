@@ -22,6 +22,7 @@ export const practiceTestTypeEnum = pgEnum(
   practiceTestTypes,
 );
 export const sectionTypeEnum = pgEnum("section_type_enum", sectionTypes);
+export const moduleOrderEnum = pgEnum("module_order_enum", ["1", "2"]);
 export const questionTypeEnum = pgEnum("question_type_enum", questionTypes);
 export const testAttemptStatusEnum = pgEnum(
   "test_attempt_status_enum",
@@ -32,7 +33,6 @@ export const practiceTests = createTable(
   "practice_test",
   (d) => ({
     id: d.uuid().defaultRandom().primaryKey(),
-    title: d.text().notNull(),
     type: practiceTestTypeEnum().notNull(),
     userId: d
       .text()
@@ -94,7 +94,7 @@ export const modules = createTable(
       .uuid()
       .references(() => sections.id, { onDelete: "cascade" })
       .notNull(),
-    title: d.text().notNull(),
+    order: moduleOrderEnum().notNull(),
     duration: d.integer().notNull(),
     createdAt: d
       .timestamp({ withTimezone: true })
@@ -159,16 +159,16 @@ export const testAttempts = createTable("test_attempt", (d) => ({
   updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
 }));
 
-export const testAttemptsRelations = relations(
-  testAttempts,
-  ({ one, many }) => ({
-    practiceTest: one(practiceTests, {
-      fields: [testAttempts.practiceTestId],
-      references: [practiceTests.id],
-    }),
-    results: many(modules),
+export const testAttemptsRelations = relations(testAttempts, ({ one }) => ({
+  practiceTest: one(practiceTests, {
+    fields: [testAttempts.practiceTestId],
+    references: [practiceTests.id],
   }),
-);
+  user: one(users, {
+    fields: [testAttempts.userId],
+    references: [users.id],
+  }),
+}));
 
 // better-auth
 
