@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { practiceTests, sections, modules } from "@/lib/db/schema";
 import { qstash } from "@/lib/qstash";
+import { absoluteUrl } from "@/lib/utils";
 import { createPracticeTestSchema } from "@/lib/validations";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/api/trpc";
 
@@ -39,6 +40,8 @@ export const practiceTestRouter = createTRPCRouter({
         } else {
           _sections.push({ type: "math", duration: 70 });
         }
+
+        const moduleIds: string[] = [];
 
         for (const sectionData of _sections) {
           const [section] = await tx
@@ -79,6 +82,8 @@ export const practiceTestRouter = createTRPCRouter({
             });
           }
 
+          moduleIds.push(module1.id);
+
           const [module2] = await tx
             .insert(modules)
             .values({
@@ -94,6 +99,29 @@ export const practiceTestRouter = createTRPCRouter({
             throw new TRPCError({
               code: "INTERNAL_SERVER_ERROR",
               message: "Failed to create second module",
+            });
+          }
+
+          moduleIds.push(module2.id);
+        }
+
+        for (const moduleId of moduleIds) {
+          try {
+            await qstash.publishJSON({
+              url: absoluteUrl(
+                `/api/test/${practiceTest.id}/module/${moduleId}/questions/generate`,
+              ),
+              body: {
+                practiceTestId: practiceTest.id,
+                moduleId: moduleId,
+              },
+            });
+          } catch (error) {
+            tx.rollback();
+
+            throw new TRPCError({
+              code: "INTERNAL_SERVER_ERROR",
+              message: "Failed to queue question generation",
             });
           }
         }
